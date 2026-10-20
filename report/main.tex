@@ -1,0 +1,188 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[a4paper,margin=1.55cm,top=1.4cm,bottom=1.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{plum}{HTML}{7D4570}
+\definecolor{ink}{HTML}{1D161B}
+\definecolor{muted}{HTML}{6B6169}
+\hypersetup{colorlinks=true,urlcolor=plum,linkcolor=plum}
+\captionsetup{font=small,labelfont={bf,color=plum},skip=3pt}
+\titleformat{\section}{\large\bfseries\color{plum}}{\thesection}{0.6em}{}
+\titlespacing*{\section}{0pt}{7pt}{3pt}
+\setlist{nosep,leftmargin=1.2em}
+\setlength{\parskip}{3pt}
+\setlength{\parindent}{0pt}
+\renewcommand{\arraystretch}{1.08}
+
+\input{numbers.tex}
+
+\begin{document}
+
+{\color{plum}\Large\bfseries Research mapping of IISER Bhopal, Mohali and Thiruvananthapuram, 2016--2026}\\[2pt]
+{\color{muted}DPCN course project \textbullet{} Group 20, team \textbf{EigenMinds}: Ponnambalam V, Manit Roy, Shashwat Mukadam \textbullet{} First-round report \textbullet{} Instructor: Prof.\ Chittaranjan Hens}\\[2pt]
+{\small Interactive dashboard: \url{\DashURL} \quad Code, data and network files: \url{\RepoURL}}
+
+\vspace{4pt}
+\noindent\colorbox{plum!7}{\begin{minipage}{\dimexpr\linewidth-2\fboxsep}
+\small\textbf{Key findings.}
+\begin{itemize}
+\item \textbf{Same quality, different growth.} The three IISERs publish an almost identical share of Q1 papers (\QOneB, \QOneM, \QOneT; $\chi^2$ $p=\ChiP$, Cram\'er's $V=\CramerV$), but output grows at very different rates: \CAGRT{} a year at TVM, \CAGRB{} at Bhopal and \CAGRM{} at Mohali (2016$\to$2025).
+\item \textbf{A few giant papers carry the citations.} \HypAll{} papers with more than \HyperCap{} authors (Planck, pulsar timing, collider experiments) hold a fifth of all citations; TVM loses almost half its citation count without them (\CitT{} $\to$ \CitNoHypT). Field-weighted impact (FWCI) is the fair comparison, and there Bhopal leads (median \FWCIB{} vs \FWCIM{} and \FWCIT; Kruskal--Wallis $p=\FwciP$).
+\item \textbf{Three islands.} \CSelf{} of citations between the three institutes' papers stay inside one institute, and only \ACross{} of \AEdges{} faculty co-authorship ties cross between them. Collaboration communities follow the institute (assortativity \AAssInst) more than the department (\AAssDept).
+\item \textbf{Net importers of Indian knowledge.} Each IISER cites other Indian institutes more than they cite it back (in/out ratio \RatioB, \RatioM, \RatioT), with TVM nearly in balance.
+\end{itemize}
+\end{minipage}}
+
+\section{Data and method}
+\textbf{Faculty.} We scraped the current regular faculty (Assistant, Associate and full Professors) from each institute's own website: Bhopal's ten department sites, Mohali's \emph{People} page and TVM's seven school pages. That gives \FacListed{} faculty (Bhopal \NFacB, Mohali \NFacM, TVM \NFacT{} matched). Visiting, adjunct, emeritus and fellowship posts are excluded so the institutes are counted alike. Each name was matched to an OpenAlex author profile by downloading every author OpenAlex has ever affiliated with the institute and fuzzy-matching locally, requiring both surname and given name to agree and preferring the profile whose field fits the department; \FacMatched{} (\FacMatchPct) matched.
+
+\textbf{Papers.} We fetched all 2016--2026 journal and conference papers of the matched authors from OpenAlex: \Papers{} unique papers, giving \Rows{} faculty--paper rows in \texttt{group20\_data.csv}. Because OpenAlex lists truncate authors at 100, every larger paper was re-fetched in full. A row is \emph{affiliated} when that faculty member's authorship lists the IISER (\AffRowsPct{} of rows); institute statistics count each affiliated paper once. Journal quartiles come from SCImago, matched on ISSN and year (\QuartPct{} of journal papers covered), and conference ranks from CORE 2023. For the Indian-connection columns we fetched the institutions of all 385k referenced works and every Indian-authored work citing a corpus paper.
+
+\textbf{Limits.} Only current faculty are listed, so papers by people who left before 2026 are missing and institute totals undercount total institutional output. Citation counts are as of October 2026.
+
+\section{Output, quality and people}
+\begin{figure}[!htb]
+\centering\includegraphics[width=\linewidth]{figures/fig_output.pdf}
+\caption{(a) Unique affiliated papers per year; 2026 is partial. (b) SCImago quartile mix of journal papers. (c) Career h-index of current faculty (OpenAlex), with medians.}
+\label{fig:output}
+\end{figure}
+
+\begin{table}[!htb]
+\centering\small
+\caption{Institute-level statistics (unique affiliated papers, 2016--2026).}
+\label{tab:inst}
+\begin{tabular}{lrrrr}
+\toprule
+ & Bhopal & Mohali & TVM & All three \\
+\midrule
+Papers & \PapB & \PapM & \PapT & \PapAll \\
+Citations (excl.\ $>$\HyperCap{} authors) & \CitB{} (\CitNoHypB) & \CitM{} (\CitNoHypM) & \CitT{} (\CitNoHypT) & \CitAll{} (\CitNoHypAll) \\
+Q1 share & \QOneB & \QOneM & \QOneT & \QOneAll \\
+Median FWCI / top-10\% cited & \FWCIB{} / \TopTenB & \FWCIM{} / \TopTenM & \FWCIT{} / \TopTenT & \FWCIAll{} / \TopTenAll \\
+NB-GLM growth per year ($p$) & \GrowthB{} (\GrowthPB) & \GrowthM{} (\GrowthPM) & \GrowthT{} (\GrowthPT) & \GrowthAll{} (\GrowthPAll) \\
+COVID-years effect ($p$) & \CovidB{} (\CovidPB) & \CovidM{} (\CovidPM) & \CovidT{} (\CovidPT) & \CovidAll{} (\CovidPAll) \\
+International co-authorship / OA & \IntlB{} / \OAB & \IntlM{} / \OAM & \IntlT{} / \OAT & \IntlAll{} / \OAAll \\
+Citation Gini & \GiniB & \GiniM & \GiniT & \GiniAll \\
+Median faculty h-index & \HMedB & \HMedM & \HMedT & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Output rose at all three institutes (Mann--Kendall trend \MKB, \MKM, \MKT). A negative-binomial regression of yearly counts on year with a 2020--21 indicator finds significant growth everywhere but \emph{no} COVID effect at any institute (all $p>0.5$). Bhopal's jump after 2021 is broad-based: Chemistry, Physics, EECS and Earth Sciences all grew by half or more between 2019--21 and 2022--24. The quartile mix is statistically indistinguishable across institutes (Table~\ref{tab:inst}, Fig.~\ref{fig:output}b), and so is faculty h-index (Kruskal--Wallis $H=\KWH$, $p=\KWP$). The institutes differ in \emph{concentration} instead: TVM's citation Gini of \GiniT{} reflects \HypT{} large-collaboration papers, mostly Planck. Larger teams are cited more (Spearman $\rho=\TeamRho$ between author count and citations), which is one reason raw counts mislead.
+
+\section{Journals, research areas and most-cited papers}
+\begin{minipage}[t]{0.56\linewidth}
+\vspace{0pt}\small
+\captionof{table}{Top 5 journals per institute (papers, SCImago quartile).}
+\label{tab:journals}
+\begin{tabularx}{\linewidth}{@{}l X r c@{}}
+\toprule
+ & Journal & $n$ & Q \\
+\midrule
+\input{tab_journals.tex}
+\end{tabularx}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.41\linewidth}
+\vspace{0pt}
+\includegraphics[width=\linewidth]{figures/fig_fields.pdf}
+\captionof{figure}{Research-area breakdown: share of each institute's papers in the eight largest OpenAlex fields.}
+\label{fig:fields}
+\end{minipage}
+
+\vspace{4pt}
+Chemistry is the largest field at Bhopal and TVM (about a fifth of papers) and level with physics at Mohali, the most physics-heavy of the three. Bhopal and TVM put more into materials science and engineering. Earth and environmental science is about a tenth of Bhopal's and Mohali's output but under 2\% of TVM's (Fig.~\ref{fig:fields}). The physics venues (\emph{Physical Review B} and \emph{D}) and the chemistry venues (\emph{Angewandte}, \emph{Chem.\ Commun.}, \emph{Chem.\ Eur.\ J.}) dominate the publication lists (Table~\ref{tab:journals}).
+
+\begin{table}[!htb]
+\centering\footnotesize
+\caption{The ten most-cited papers (all three IISERs, citations to October 2026). Seven are parts of the \emph{Planck 2018} release; excluding papers with more than \HyperCap{} authors, the top paper is a 2020 \emph{Advanced Functional Materials} paper on post-synthetic modification of metal--organic frameworks (dashboard: Journals \& Impact, ``$\le$ 50 authors'').}
+\label{tab:cited}
+\begin{tabularx}{\linewidth}{@{}r X l r r l@{}}
+\toprule
+\# & Title & Venue & Year & Cites & DOI \\
+\midrule
+\input{tab_cited.tex}
+\end{tabularx}
+\end{table}
+
+\section{Citation network}
+\begin{figure}[!htb]
+\centering\includegraphics[width=\linewidth]{figures/fig_citation.pdf}
+\caption{(a) Giant weakly connected component of the internal citation graph (nodes = papers, size $\propto$ PageRank, colour = institute). (b) In-degree distribution on log--log axes with the best power-law fit for reference.}
+\label{fig:cit}
+\end{figure}
+
+The directed graph has \CNodes{} papers and \CEdges{} internal citation edges (``paper A cites paper B'', both authored by our faculty). The raw \texttt{citation\_network.csv} also carries \COutIndia{} outgoing and \CInIndia{} incoming edges to and from other Indian institutes. About half the papers (\CGiant) sit in one weakly connected component, and the median citation lag is \CLag{} years. \CSelf{} of internal edges join two papers of the \emph{same} institute: the three IISERs barely build on each other's work.
+
+The in-degree distribution is heavy-tailed. A power law fits above $x_{\min}=\CXmin$ with $\alpha=\CAlpha$, but a log-normal fits significantly better (likelihood ratio $R=\CRLN$, $p<0.001$), the usual signature of cumulative advantage tempered by ageing rather than pure preferential attachment. PageRank (Table~\ref{tab:pr}) surfaces papers that are cited by \emph{well-cited} internal papers: Bhopal's noncentrosymmetric-superconductor line and Mohali's atmospheric-chemistry papers outrank far more cited papers, because they seed long internal citation chains. The Planck 2018 entry ranks highly only because the papers in that series cite one another, which is why the dashboard offers a ranking without large collaborations.
+
+\begin{table}[!htb]
+\centering\footnotesize
+\caption{PageRank top 10 on the internal citation graph ($\alpha=0.85$); \emph{in} = citations from other corpus papers.}
+\label{tab:pr}
+\begin{tabularx}{\linewidth}{@{}r X r l r r@{}}
+\toprule
+\# & Title & Year & Inst. & In & All cites \\
+\midrule
+\input{tab_pagerank.tex}
+\end{tabularx}
+\end{table}
+
+\section{Co-authorship network}
+\begin{figure}[!htb]
+\centering\includegraphics[width=\linewidth]{figures/fig_coauthor.pdf}
+\caption{(a) Faculty co-authorship network (papers with $\le$\HyperCap{} authors; node size = joint papers; gold edges cross institutes; the six largest Leiden communities coloured, the five strongest brokers named). (b) Cumulative network by year.}
+\label{fig:co}
+\end{figure}
+
+Nodes are our \ANodes{} matched faculty, joined when they co-authored a paper (weight = joint papers). Only \AConn{} faculty have a co-author among the other faculty; the remaining \AIso{} collaborate only with students, postdocs or outsiders. The \AEdges{} ties form a sparse (mean degree \AMeanDeg) but strongly clustered network. Its clustering of \AC{} is \ACratio{} times the configuration-model value (\ACnull) at a similar path length (\AL{} vs \ALnull), giving small-world $\sigma=\ASigma$ (90\% of 50 null graphs give \ASigmaLo--\ASigmaHi, all well above 1). Leiden finds \ALeiden{} communities with modularity $Q=\AQ$ (Louvain \ALouvQ). They agree only partly with departments (NMI \ANMI, ARI \AARI): the large communities are \emph{interdisciplinary within one institute}, for example Bhopal chemistry with biology, and TVM chemistry with physics.
+
+Brokers with the highest betweenness are \ABtwA, \ABtwB{} and \ABtwC{} (Table~\ref{tab:central}). From \AYearStart{} to \AYearEnd{} the giant component grew from \AGiantStart{} to \AGiantEnd{} of connected faculty while modularity fell from \AModStart{} to \AModEnd{} (Fig.~\ref{fig:co}b): the network is knitting together without losing its group structure. As a first model we predicted which faculty pairs would \emph{start} collaborating after \LPSplit{} from the network up to \LPSplit. Preferential attachment (AUC \LPPA) and same-department membership (\LPDept) beat common-neighbour scores such as Adamic--Adar (\LPAA): new ties go to already well-connected people in the same department more than to friends of friends.
+
+\begin{table}[!htb]
+\centering\footnotesize
+\caption{Most collaborative (degree) and most bridging (weighted betweenness) faculty.}
+\label{tab:central}
+\begin{tabular}{@{}r l r l r@{}}
+\toprule
+\# & Degree & $k$ & Betweenness & $b$ \\
+\midrule
+\input{tab_central.tex}
+\end{tabular}
+\end{table}
+
+\section{Indian connectivity}
+\begin{figure}[!htb]
+\centering\includegraphics[width=\linewidth]{figures/fig_connect.pdf}
+\caption{(a) Citations exchanged with other Indian institutes: in = an Indian-authored paper cites ours, out = our paper cites one; the in/out ratio is printed above each pair. (b) Co-authored papers by partner cluster.}
+\label{fig:conn}
+\end{figure}
+
+Our faculty co-author with \Partners{} other Indian institutes, and \Linked{} Indian institutes are linked to them by co-authorship or citation. Bhopal received \InB{} citations from other Indian institutes and gave \OutB{} (ratio \RatioB); Mohali \InM{} vs \OutM{} (\RatioM); TVM \InT{} vs \OutT{} (\RatioT). The ratio is partly a time effect: references are complete at publication, while incoming citations keep arriving. The most frequent Indian citer of Bhopal and Mohali is the Academy of Scientific and Innovative Research (CSIR's PhD-granting academy), and of TVM the Homi Bhabha National Institute (DAE). The strongest co-authorship partners are IIT Kanpur (Bhopal), TIFR (Mohali) and IISc (TVM). By cluster, universities and IITs dominate shared papers, followed by DST/DBT autonomous institutes, DAE and CSIR; these \emph{cross-cluster} links (IISER$\leftrightarrow$IIT, IISER$\leftrightarrow$CSIR/DAE) far outnumber IISER$\leftrightarrow$IISER papers. Topic overlap (Jaccard on the top-50 OpenAlex topics) with each partner is in \texttt{indian\_connections.csv} and on the dashboard.
+
+\section{Why these findings matter}
+\begin{itemize}
+\item \textbf{Raw counts mislead in exactly the places where rankings use them.} One Planck release decides which IISER looks ``most cited''. Any comparison of these institutes (NIRF-style or internal) should use field-weighted impact and report large-collaboration papers separately, as this dashboard does.
+\item \textbf{The IISER system is three parallel systems.} With \CSelf{} of mutual citations inside one institute and only \ACross{} cross-IISER faculty ties, the three institutes work largely in isolation from each other. Their subfield portfolios overlap substantially (weighted Jaccard \SimLo--\SimHi; dashboard: Research Areas), so the missing links are an opportunity rather than a mismatch. Joint centres or shared PhD supervision could target the faculty pairs the link-prediction model ranks highest.
+\item \textbf{Collaboration is organised around people, not departments.} Communities cut across Chemistry, Biology and Physics inside each campus, and a few brokers (Table~\ref{tab:central}) hold large parts of the network together. That is a strength for interdisciplinary work and a fragility if those people leave.
+\item \textbf{The IISERs are absorbers of Indian science.} They cite universities, IITs and DAE/CSIR labs more than these cite them back. As the institutes mature (TVM is already near balance), the ratio is a simple indicator of whether they become sources of Indian knowledge rather than only consumers.
+\end{itemize}
+
+\section{What the second round will add}
+\begin{itemize}
+\item \textbf{Better community models.} A degree-corrected (nested) stochastic block model will test whether the institute/department structure is real or a modularity artefact, and core--periphery detection will find a collaborative core.
+\item \textbf{Temporal and disruption measures.} We will compute the CD disruption index and identify ``sleeping beauty'' papers on the citation graph, and fit a citation model with preferential attachment, ageing and fitness to explain the log-normal tail.
+\item \textbf{Representation learning for link prediction.} Node2vec embeddings plus topic similarity, evaluated on the same temporal split, to recommend cross-IISER collaborations where topics overlap but no ties exist (the three portfolios share a large part of their subfield mix).
+\item \textbf{A multilayer view.} Combine the citation, co-authorship and topic-similarity layers, and extract the disparity-filter backbone of the Indian partner network.
+\end{itemize}
+
+\end{document}

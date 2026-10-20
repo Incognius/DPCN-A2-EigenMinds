@@ -1,0 +1,32 @@
+group: 20
+year_min: 2016
+year_max: 2026
+hyperauthor_cap: 50        # papers with more authors are excluded from the co-authorship graph
+repo_url:                  # e.g. https://github.com/<user>/iiser-research-atlas (set at deploy)
+dashboard_url:             # e.g. https://<user>.github.io/iiser-research-atlas/
+
+institutions:
+  - key: IISERB
+    name: IISER Bhopal
+    full_name: Indian Institute of Science Education and Research, Bhopal
+    openalex: I288749910
+    ror: https://ror.org/02rb21j89
+    city: Bhopal
+    lat: 23.2858
+    lon: 77.2754
+  - key: IISERM
+    name: IISER Mohali
+    full_name: Indian Institute of Science Education and Research Mohali
+    openalex: I165916956
+    ror: https://ror.org/01vztzd79
+    city: Mohali
+    lat: 30.6650
+    lon: 76.7300
+  - key: IISERTVM
+    name: IISER Thiruvananthapuram
+    full_name: Indian Institute of Science Education and Research Thiruvananthapuram
+    openalex: I50557253
+    ror: https://ror.org/01pe3t004
+    city: Thiruvananthapuram
+    lat: 8.6826
+    lon: 77.1330
