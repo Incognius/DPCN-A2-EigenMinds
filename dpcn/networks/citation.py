@@ -16,6 +16,7 @@ import pandas as pd
 import powerlaw
 
 from ..config import FINAL, INTERIM, inst_by_key
+from ..enrich.links import load_citers
 from .common import doi_or_id, inst_name, layout, paper_institutes
 
 
@@ -23,7 +24,7 @@ def build_edges():
     papers = pd.read_parquet(INTERIM / "papers_enriched.parquet").set_index("work_id")
     refs = pd.read_parquet(INTERIM / "refs.parquet")
     meta = pd.read_parquet(INTERIM / "ref_meta.parquet").set_index("ref_id")
-    citing = pd.read_parquet(INTERIM / "citing.parquet")
+    citing = load_citers()
     pinst = paper_institutes()
     ours = {v["openalex"] for v in inst_by_key().values()}
     corpus = set(pinst)
@@ -61,6 +62,7 @@ def build_edges():
     e["cross_institute"] = e.source_inst != e.target_inst
     e = e[["source_doi", "target_doi", "source_inst", "target_inst", "year", "source_id", "target_id",
            "scope", "cross_institute"]].drop_duplicates(["source_id", "target_id"])
+    e["year"] = e.year.astype(int)
     e.to_csv(FINAL / "citation_network.csv", index=False)
     print("citation_network.csv", e.scope.value_counts().to_dict())
     return e, papers, pinst

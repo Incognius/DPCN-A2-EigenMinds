@@ -38,6 +38,9 @@ def main():
     m["FacMatched"] = num(meta["counts"]["faculty_matched"])
     m["FacMatchPct"] = pc(meta["coverage"]["faculty_match"])
     m["Papers"] = num(meta["counts"]["papers"])
+    words = "None One Two Three Four Five Six Seven Eight Nine Ten".split()
+    m["TopTenPlanck"] = words[sum(str(p["title"]).startswith("Planck")
+                                  for p in st["institutes"]["ALL"]["top_cited"][:10])]
     m["Rows"] = num(meta["counts"]["rows"])
     m["AffRowsPct"] = pc(meta["coverage"]["affiliated_rows"], 0)
     m["DoiPct"] = pc(meta["coverage"]["doi"])

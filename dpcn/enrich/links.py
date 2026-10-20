@@ -14,9 +14,19 @@ from concurrent.futures import ThreadPoolExecutor
 import pandas as pd
 
 from .. import openalex as oa
-from ..config import INTERIM
+from ..config import INTERIM, YEAR_MAX, YEAR_MIN
 
 LIGHT = "id,doi,publication_year,authorships"
+
+
+def load_citers() -> pd.DataFrame:
+    """citing.parquet restricted to citing years 2016-2026. OpenAlex dates a few citing works years
+    before the paper they cite (mis-dated records) or not at all; those are dropped, with a year of
+    slack for preprint citations."""
+    citing = pd.read_parquet(INTERIM / "citing.parquet")
+    year = pd.read_parquet(INTERIM / "papers.parquet", columns=["work_id", "year"]).set_index("work_id").year
+    ok = citing.year.between(YEAR_MIN, YEAR_MAX) & (citing.year >= citing.cited_id.map(year) - 1)
+    return citing[ok].astype({"year": int})
 
 
 def _insts(w: dict) -> tuple[list, list, list]:

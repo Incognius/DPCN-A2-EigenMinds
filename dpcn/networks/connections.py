@@ -19,6 +19,7 @@ import pandas as pd
 from .. import openalex as oa
 from ..clusters import cluster_of
 from ..config import FINAL, INTERIM, YEAR_MAX, YEAR_MIN, inst_by_key
+from ..enrich.links import load_citers
 from .common import paper_institutes
 
 TOP_PARTNERS = 25
@@ -49,7 +50,7 @@ def main():
     auths = pd.read_parquet(INTERIM / "authorships.parquet")
     refs = pd.read_parquet(INTERIM / "refs.parquet")
     meta = pd.read_parquet(INTERIM / "ref_meta.parquet").set_index("ref_id")
-    citing = pd.read_parquet(INTERIM / "citing.parquet")
+    citing = load_citers()
 
     names: dict[str, str] = {}
     shared = defaultdict(set)            # (our key, partner id) -> work ids
@@ -74,8 +75,8 @@ def main():
                     cit_in[(k, iid)] += 1
             if others:
                 in_edges[k].add((c.citing_id, c.cited_id))
-            if others and pd.notna(c.year):          # a handful of citing works carry no year
-                in_year[(k, int(c.year))] += 1
+            if others:
+                in_year[(k, c.year)] += 1
     for r in refs[refs.work_id.isin(pinst)].itertuples():
         if r.ref_id not in meta.index:
             continue

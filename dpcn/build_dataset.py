@@ -11,6 +11,7 @@ import re
 import pandas as pd
 
 from .config import FINAL, GROUP, INTERIM, cfg, inst_by_key
+from .enrich.links import load_citers
 from .enrich.venue import core_ranks, journal_quartiles
 
 SPEC_COLUMNS = ["group", "institution", "author", "title", "year", "type", "journal_name", "issn",
@@ -53,7 +54,7 @@ def indian_flags(own_inst_id: str, work_ids: set[str]) -> tuple[dict, dict]:
                if any(c == "IN" and i != own_inst_id for i, c in zip(r.inst_ids, r.inst_countries))}
     refs = refs[refs.work_id.isin(work_ids)]
     cites = refs.assign(ind=refs.ref_id.isin(ind_ref)).groupby("work_id").ind.any().to_dict()
-    citing = pd.read_parquet(INTERIM / "citing.parquet")
+    citing = load_citers()
     citing = citing[citing.cited_id.isin(work_ids)]
     cited = (citing.assign(ind=[any(i != own_inst_id for i in ids) for ids in citing.inst_ids])
                    .groupby("cited_id").ind.any().to_dict())

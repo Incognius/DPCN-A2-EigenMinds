@@ -64,3 +64,22 @@ def test_connections_exclude_self(data):
     c = pd.read_csv(FINAL / "indian_connections.csv")
     assert not (c.your_inst == c.partner_inst).any()
     assert (c.total_citations == c.citations_in + c.citations_out).all()
+
+
+def test_journal_papers_have_issn(data):
+    assert data.loc[data.type == "journal", "issn"].notna().all()
+
+
+def test_no_errata_or_duplicate_records(data):
+    papers = data.drop_duplicates("work_id")
+    dois = set(papers.doi.dropna())
+    assert not any(d.endswith("e") and d[:-1] in dois for d in dois)            # '<doi>e' errata
+    assert not papers.doi.fillna("").str.contains("10.1002/ange.", regex=False).any()
+    assert not papers.doi.dropna().duplicated().any()
+    assert not papers.journal_name.eq("Angewandte Chemie").any()
+
+
+def test_citation_network_years(data):
+    e = pd.read_csv(FINAL / "citation_network.csv", low_memory=False)
+    assert pd.api.types.is_integer_dtype(e.year)
+    assert e.year.between(2016, 2026).all()
