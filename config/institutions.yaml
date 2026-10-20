@@ -2,8 +2,8 @@ group: 20
 year_min: 2016
 year_max: 2026
 hyperauthor_cap: 50        # papers with more authors are excluded from the co-authorship graph
-repo_url:                  # e.g. https://github.com/<user>/iiser-research-atlas (set at deploy)
-dashboard_url:             # e.g. https://<user>.github.io/iiser-research-atlas/
+repo_url: https://github.com/Incognius/DPCN-A2-EigenMinds
+dashboard_url: https://incognius.github.io/DPCN-A2-EigenMinds/
 
 institutions:
   - key: IISERB
