@@ -149,7 +149,8 @@ def non_papers(papers: pd.DataFrame) -> pd.Series:
     """True for front matter, notices, errata and ISSN-less 'journal' venues."""
     dois = set(papers.doi.dropna())
     erratum = papers.doi.fillna("").map(lambda d: d.endswith("e") and d[:-1] in dois)
-    notice = papers.title.fillna("").str.match(NON_PAPER)
+    # not .str.match(NON_PAPER): pandas drops a compiled pattern's re.I flag, so "Frontispiz:" slipped through
+    notice = papers.title.fillna("").map(lambda t: bool(NON_PAPER.match(t)))
     no_issn = papers.source_type.eq("journal") & papers.work_type.ne("conference-paper") & papers.issn_l.isna()
     return erratum | notice | no_issn
 
@@ -201,7 +202,10 @@ def main():
     papers = fix_venues(papers)
     papers = papers[~non_papers(papers)]
     dup = duplicate_map(papers, auths[auths.work_id.isin(set(papers.work_id))])
-    papers = papers[~papers.work_id.isin(dup)]
+    papers = papers[~papers.work_id.isin(dup)].copy()
+    # after de-duplication: a German-edition record with no International Edition twin is still the same
+    # article (ange.X and anie.X share the suffix), so point it at the International Edition DOI
+    papers["doi"] = papers.doi.str.replace(ANGEW_DE, ANGEW_INT, regex=False)
     keep = set(papers.work_id)
     print(f"works: {raw_n} fetched -> {typed_n} journal/conference -> {typed_n - len(papers) - len(dup)} "
           f"non-papers and {len(dup)} duplicate records dropped -> {len(papers)} papers kept")

@@ -17,7 +17,7 @@ export interface Meta {
   hyperauthor_cap: number;
   openalex_spend_note: string;
   downloads: { label: string; file: string; url: string; rows: number; desc: string }[];
-  links: { repo: string; dashboard: string };
+  links: { repo: string; dashboard: string; drive: string };
 }
 
 export interface PaperCard {

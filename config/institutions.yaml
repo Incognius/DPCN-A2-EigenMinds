@@ -3,7 +3,8 @@ year_min: 2016
 year_max: 2026
 hyperauthor_cap: 50        # papers with more authors are excluded from the co-authorship graph
 repo_url: https://github.com/Incognius/DPCN-A2-EigenMinds
-dashboard_url: https://incognius.github.io/DPCN-A2-EigenMinds/
+dashboard_url:             # set to the Vercel URL once deployed
+drive_url:                 # Google Drive share link of submission/Group20_IISER_data.zip
 
 institutions:
   - key: IISERB

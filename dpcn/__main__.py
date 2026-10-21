@@ -10,13 +10,14 @@ Stages, in order:
   networks  citation + co-authorship networks, Indian connections
   figures   report figures
   web       dashboard JSON
+  finalize  web + report numbers + PDF + submission zips (run after changing links in config)
 Every OpenAlex response is cached, so re-running a stage is free.
 """
 from __future__ import annotations
 
 import sys
 
-from . import build_dataset, collect, export_web, figures, stats
+from . import build_dataset, collect, export_web, figures, package, report_numbers, stats
 from .enrich import links, sjr
 from .faculty import match, scrape
 from .networks import authorship, citation, connections
@@ -31,6 +32,7 @@ STAGES = {
     "networks": [citation.main, authorship.main, connections.main],
     "figures": [figures.main],
     "web": [export_web.main],
+    "finalize": [export_web.main, report_numbers.main, package.main],
 }
 
 if __name__ == "__main__":

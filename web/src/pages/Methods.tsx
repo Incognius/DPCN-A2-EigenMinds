@@ -34,10 +34,12 @@ export default function Methods() {
       </div>
 
       <Card>
-        <CardHead title="Downloads" sub="The submitted dataset and the three network files (CSV, UTF-8)" />
+        <CardHead title="Data files" sub={m.links.drive
+          ? "The raw dataset and network files are kept private; they are shared through Google Drive (access on request)"
+          : "The submitted dataset and the three network files (CSV, UTF-8)"} />
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           {m.downloads.map((d) => (
-            <a key={d.file} href={d.url} download
+            <a key={d.file} href={d.url} {...(m.links.drive ? { target: "_blank", rel: "noreferrer" } : { download: true })}
               className="flex items-start gap-3 rounded-[16px] border border-white/[0.07] bg-[#0f0b0e] p-4 transition hover:border-white/20">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-plum-500/15 text-plum-200"><Download size={17} /></span>
               <span><span className="block text-[14.5px] font-semibold">{d.file}</span>

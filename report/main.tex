@@ -31,10 +31,10 @@
 \noindent\begin{minipage}[t]{0.86\linewidth}
 {\color{plum}\Large\bfseries Research mapping of IISER Bhopal, Mohali and Thiruvananthapuram, 2016--2026}\\[2pt]
 {\color{muted}DPCN course project \textbullet{} Group 20, team \textbf{EigenMinds}: Ponnambalam V, Manit Roy, Shashwat Mukadam \textbullet{} First-round report \textbullet{} Instructor: Prof.\ Chittaranjan Hens}\\[2pt]
-{\small Interactive dashboard: \url{\DashURL}\\ Code, data and network files: \url{\RepoURL}}
+{\small Interactive dashboard: \DashURL\\ Data and network files (Google Drive, access on request): \DriveURL\\ Pipeline code: \RepoURL}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.12\linewidth}\vspace{0pt}\raggedleft
-\includegraphics[width=\linewidth]{figures/qr_dashboard.png}\\[-1pt]{\tiny\color{muted}dashboard}
+\QRBlock
 \end{minipage}
 
 \vspace{4pt}
@@ -83,7 +83,7 @@ Median faculty h-index & \HMedB & \HMedM & \HMedT & -- \\
 \end{tabular}
 \end{table}
 
-Output rose at all three institutes (Mann--Kendall trend \MKB, \MKM, \MKT). A negative-binomial regression of yearly counts on year with a 2020--21 indicator finds significant growth everywhere but \emph{no} COVID effect at any institute (all $p>0.5$). Bhopal's jump after 2021 is broad-based: Chemistry, Physics, EECS and Earth Sciences all grew by half or more between 2019--21 and 2022--24. The quartile mix is statistically indistinguishable across institutes (Table~\ref{tab:inst}, Fig.~\ref{fig:output}b), and so is faculty h-index (Kruskal--Wallis $H=\KWH$, $p=\KWP$). The institutes differ in \emph{concentration} instead: TVM's citation Gini of \GiniT{} reflects \HypT{} large-collaboration papers, mostly Planck. Larger teams are cited more (Spearman $\rho=\TeamRho$ between author count and citations), which is one reason raw counts mislead.
+Output rose at all three institutes (Mann--Kendall trend \MKB, \MKM, \MKT). A negative-binomial regression of yearly counts on year with a 2020--21 indicator finds significant growth everywhere but \emph{no} COVID effect at any institute (all $p>0.5$). Bhopal's jump after 2021 is broad-based: Chemistry, Physics, EECS and Earth Sciences all grew by 45\% or more between 2019--21 and 2022--24. The quartile mix is statistically indistinguishable across institutes (Table~\ref{tab:inst}, Fig.~\ref{fig:output}b), and so is faculty h-index (Kruskal--Wallis $H=\KWH$, $p=\KWP$). The institutes differ in \emph{concentration} instead: TVM's citation Gini of \GiniT{} reflects \HypT{} large-collaboration papers, mostly Planck. Larger teams are cited more (Spearman $\rho=\TeamRho$ between author count and citations), which is one reason raw counts mislead.
 
 \section{Journals, research areas and most-cited papers}
 \begin{minipage}[t]{0.56\linewidth}
@@ -172,7 +172,7 @@ Brokers with the highest betweenness are \ABtwA, \ABtwB{} and \ABtwC{} (Table~\r
 \label{fig:conn}
 \end{figure}
 
-Our faculty co-author with \Partners{} other Indian institutes, and \Linked{} Indian institutes are linked to them by co-authorship or citation. Bhopal received \InB{} citations from other Indian institutes and gave \OutB{} (ratio \RatioB); Mohali \InM{} vs \OutM{} (\RatioM); TVM \InT{} vs \OutT{} (\RatioT). The ratio is partly a time effect: references are complete at publication, while incoming citations keep arriving. The most frequent Indian citer of Bhopal and Mohali is the Academy of Scientific and Innovative Research (CSIR's PhD-granting academy), and of TVM the Homi Bhabha National Institute (DAE). The strongest co-authorship partners are IIT Kanpur (Bhopal), TIFR (Mohali) and IISc (TVM). By cluster, universities and IITs dominate shared papers, followed by DST/DBT autonomous institutes, DAE and CSIR; these \emph{cross-cluster} links (IISER$\leftrightarrow$IIT, IISER$\leftrightarrow$CSIR/DAE) far outnumber IISER$\leftrightarrow$IISER papers. Topic overlap (Jaccard on the top-50 OpenAlex topics) with each partner is in \texttt{indian\_connections.csv} and on the dashboard.
+Our faculty co-author with \Partners{} other Indian institutes, and \Linked{} Indian institutes are linked to them by co-authorship or citation. Bhopal received \InB{} citations from other Indian institutes and gave \OutB{} (ratio \RatioB); Mohali \InM{} vs \OutM{} (\RatioM); TVM \InT{} vs \OutT{} (\RatioT). The ratio is partly a time effect: references are complete at publication, while incoming citations keep arriving. The most frequent Indian citers are \TopCiterB{} (Bhopal), \TopCiterM{} (Mohali) and \TopCiterT{} (TVM); the Academy of Scientific and Innovative Research is CSIR's PhD-granting academy, so its papers are CSIR lab output. The strongest co-authorship partners are \TopPartnerB{} (Bhopal), \TopPartnerM{} (Mohali) and \TopPartnerT{} (TVM). By cluster, universities and IITs dominate shared papers, followed by DST/DBT autonomous institutes, DAE and CSIR; these \emph{cross-cluster} links (IISER$\leftrightarrow$IIT, IISER$\leftrightarrow$CSIR/DAE) far outnumber IISER$\leftrightarrow$IISER papers. Topic overlap (Jaccard on the top-50 OpenAlex topics) with each partner is in \texttt{indian\_connections.csv} and on the dashboard.
 
 \section{Why these findings matter}
 \begin{itemize}

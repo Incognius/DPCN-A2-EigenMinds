@@ -151,18 +151,21 @@ def main():
         items.append(dict(k="j", id=j, label=j, sub=f"{n} papers"))
     write("search.json", items)
 
-    # downloads: once the repo is public, link to data/final on GitHub (one copy of the CSVs in git);
-    # before that, copy them next to the dashboard for local use (that folder is gitignored)
+    # downloads: the raw data is kept private (instructor's request) -- never in git, never in the
+    # deployed site. With a Google Drive link configured every download points there; without one
+    # (local preview) the CSVs are copied next to the dashboard in a gitignored folder.
     files = [(f"group{GROUP}_data.csv", "one row per faculty × paper, 14 spec columns + extras"),
              ("citation_network.csv", "directed paper → paper edges, internal + Indian in/out"),
              ("authorship_network.csv", "co-author pairs involving our faculty"),
              ("indian_connections.csv", "partner institutes: shared papers and citation flow")]
-    repo = cfg().get("repo_url")
+    drive = cfg().get("drive_url")
     dl = WEB_DATA / "downloads"
+    if drive and dl.exists():
+        shutil.rmtree(dl)
     downloads = []
     for f, desc in files:
-        if repo:
-            url = f"{repo.rstrip('/')}/raw/main/data/final/{f}"
+        if drive:
+            url = drive
         else:
             dl.mkdir(exist_ok=True)
             shutil.copy(FINAL / f, dl / f)
@@ -184,7 +187,8 @@ def main():
         coverage=dict(faculty_match=float((matched.author_ids.fillna("") != "").mean()), doi=float(papers.doi.notna().mean()),
                       quartile=float(jr.sjr_quartile.notna().mean()), affiliated_rows=float(data.affiliated.mean())),
         hyperauthor_cap=cfg()["hyperauthor_cap"], openalex_spend_note="", downloads=downloads,
-        links=dict(repo=cfg().get("repo_url") or "", dashboard=cfg().get("dashboard_url") or ""),
+        links=dict(repo=cfg().get("repo_url") or "", dashboard=cfg().get("dashboard_url") or "",
+                   drive=cfg().get("drive_url") or ""),
     )
     write("meta.json", meta)
 

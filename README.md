@@ -6,10 +6,10 @@ Research mapping of **IISER Bhopal, IISER Mohali and IISER Thiruvananthapuram**,
 
 | Deliverable | Where |
 |---|---|
-| Dataset `group20_data.csv` (14 spec columns + extras) | [`data/final/`](data/final/) |
-| `citation_network.csv`, `authorship_network.csv`, `indian_connections.csv` | [`data/final/`](data/final/) |
-| Interactive dashboard | [`web/`](web/), deployed to GitHub Pages (link in `web/public/data/meta.json`) |
-| Report PDF (≤ 5 pages) | [`submission/Group20_IISER.pdf`](submission/), source in [`report/`](report/) |
+| Dataset `group20_data.csv` (14 spec columns + extras) | **Private** (instructor's request): Google Drive link in the report; built locally into `data/final/` (gitignored) |
+| `citation_network.csv`, `authorship_network.csv`, `indian_connections.csv` | Same: Drive link, `data/final/` locally |
+| Interactive dashboard | [`web/`](web/), hosted on Vercel; see [`docs/DEPLOY_VERCEL.md`](docs/DEPLOY_VERCEL.md) |
+| Report PDF (≤ 5 pages) + submission zip | `python -m dpcn finalize` → `submission/Group20_IISER.pdf`, `Group20_IISER.zip` (report + data), `Group20_IISER_data.zip` (for Drive); source in [`report/`](report/) |
 | Brief from the instructor | [`docs/brief/`](docs/brief/) |
 
 ## What is in the data

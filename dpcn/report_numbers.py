@@ -128,8 +128,19 @@ def main():
     for name, mac in [("adamic_adar", "LPAA"), ("jaccard", "LPJac"), ("pref_attachment", "LPPA"), ("same_department", "LPDept")]:
         m[mac] = num(lp["auc"].get(name) or 0, 2)
 
-    m["DashURL"] = meta["links"]["dashboard"] or "(link added on deployment)"
-    m["RepoURL"] = meta["links"]["repo"] or "(link added on deployment)"
+    def link(url, missing):                      # \url{} would eat the spaces of a placeholder
+        return rf"\url{{{url}}}" if url else rf"\emph{{{missing}}}"
+    m["DashURL"] = link(meta["links"]["dashboard"], "link added on deployment")
+    m["RepoURL"] = link(meta["links"]["repo"], "link added on deployment")
+    m["DriveURL"] = link(meta["links"].get("drive"), "Google Drive link to be added")
+    qr = ROOT / "report" / "figures" / "qr_dashboard.png"
+    if meta["links"]["dashboard"]:
+        import qrcode
+        qrcode.make(meta["links"]["dashboard"], border=1).save(qr)
+        m["QRBlock"] = r"\includegraphics[width=\linewidth]{figures/qr_dashboard.png}\\[-1pt]{\tiny\color{muted}dashboard}"
+    else:
+        qr.unlink(missing_ok=True)
+        m["QRBlock"] = ""
     m["Partners"] = num(meta["counts"]["partners"]); m["Linked"] = num(meta["counts"]["linked_institutes"])
     sims = [p["ruzicka"] for p in json.loads((ROOT / "web" / "public" / "data" / "areas.json").read_text())["pairs"]]
     m["SimLo"] = num(min(sims), 2); m["SimHi"] = num(max(sims), 2)

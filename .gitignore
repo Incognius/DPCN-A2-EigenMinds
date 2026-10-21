@@ -18,4 +18,8 @@ report/main.pdf
 report/build.log
 report/*.fdb_latexmk
 web/tsconfig.tsbuildinfo
-.claude/settings.local.json
+.claude/
+
+# raw data is private (instructor): shared via Google Drive, never committed
+data/final/*.csv
+submission/
