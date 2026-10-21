@@ -1,0 +1,8 @@
+# Netlify: the dashboard is the Vite app in web/; the repo root has no site of its own.
+[build]
+  base = "web"
+  command = "npm run build"
+  publish = "dist"          # relative to base -> web/dist
+
+[build.environment]
+  NODE_VERSION = "22"
