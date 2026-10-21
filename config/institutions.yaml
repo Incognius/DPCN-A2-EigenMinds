@@ -4,7 +4,7 @@ year_max: 2026
 hyperauthor_cap: 50        # papers with more authors are excluded from the co-authorship graph
 repo_url: https://github.com/Incognius/DPCN-A2-EigenMinds
 dashboard_url: https://dpcn-research-atlas.netlify.app/
-drive_url:                 # Google Drive share link of submission/Group20_IISER_data.zip
+drive_url: https://drive.google.com/drive/folders/1oaBlGaeubDYojIDeF_8RKo7vQbCn1MmT?usp=sharing
 
 institutions:
   - key: IISERB
